@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 import torch
 
@@ -27,7 +26,6 @@ def generate(prompt='', length=80, variations=30):
         print(f'\n--- {i+1} ---')
         print(tokenizer.decode(output, skip_special_tokens=True))
 
-=======
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 import torch
 
@@ -56,5 +54,4 @@ def generate(prompt='', length=80, variations=30):
         print(f'\n--- {i+1} ---')
         print(tokenizer.decode(output, skip_special_tokens=True))
 
->>>>>>> 9e7be52 (first commit)
 generate(prompt='what should be your name?')
