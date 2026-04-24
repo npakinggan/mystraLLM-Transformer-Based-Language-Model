@@ -78,19 +78,21 @@ from datasets import Dataset
 with open('messages.json', 'r', encoding = 'utf-8') as f:
     data = json.load(f)
 
-messages = []
-for entry in data:
-    content = entry.get('Contents', '').strip()
-    if not content:
-        continue
-    content = re.sub(r'https?://\S+', '<URL>', content)
-    messages.append(content)
-
-
-
 # loading tokenizer
 tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
 tokenizer.pad_token = tokenizer.eos_token
+
+messages = []
+entries = [e for e in data if e.get('Contents', '').strip()]
+
+for i in range(len(entries) - 1):
+    prompt = entries[i]['Contents'].strip()
+    response = entries[i+1]['Contents'].strip()
+
+    prompt = re.sub(r'https?://\S+', '<URL>', prompt)
+    response = re.sub(r'https?://\S+', '<URL>', response)
+
+    messages.append(f"{prompt} <|sep|> {response} {tokenizer.eos_token}")
 
 # tokenizing dataset
 def tokenize(batch):
@@ -127,5 +129,9 @@ trainer = Trainer(model = model,
 
 trainer.train()
 trainer.save_model('./gpt2-finetuned')
+<<<<<<< HEAD
 tokenizer.save_pretrained('./gpt2-finetuned')
 >>>>>>> 9e7be52 (first commit)
+=======
+tokenizer.save_pretrained('./gpt2-finetuned')
+>>>>>>> d4bce78 (updated trainv2 response)
